@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityFragment">
+
+    <TextView android:text="This is for What? Dong" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/textview"/>
+    <Button android:id="@+id/button" android:text="button" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:layout_below="@+id/textview"/>
+    <ToggleButton android:id="@+id/togglebutton" android:textSize="24pt" android:textOff="off"
+        android:textOn="on" android:layout_height="wrap_content" android:layout_width="wrap_content"
+        android:layout_below="@+id/button"/>
+
+    <CheckBox android:id="@+id/checkbox" android:layout_height="wrap_content" android:layout_width="wrap_content"
+        android:text="not_yet_checked" android:layout_below="@+id/togglebutton"/>
+    <RatingBar android:id="@+id/ratingbar" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:numStars="10" android:layout_below="@+id/checkbox"/>
+</RelativeLayout>
