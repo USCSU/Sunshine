@@ -1,3 +1,2 @@
-This is txt file on dev branch
-Add a line
-modify this with dev branch
+This feature branch to see if there is any conflict
+feature branch
