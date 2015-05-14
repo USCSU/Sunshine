@@ -1,20 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityFragment">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityFragment"
+     >
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:id="@+id/textview"
+    <ListView  android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/list_item_forecast"
         />
-    <Button android:id="@+id/button" android:text="button" android:layout_height="wrap_content" android:layout_width="wrap_content"
-        android:layout_below="@+id/textview"/>
-    <ToggleButton android:id="@+id/togglebutton"  android:textSize="24pt" android:textOff="offbutton"
-        android:textOn="ontext" android:layout_height="wrap_content" android:layout_width="wrap_content"
-        android:layout_below="@+id/button" />
-    <CheckBox android:id="@+id/checkbox" android:text="CheckBox_not_checked" android:layout_height="wrap_content" android:layout_width="wrap_content"
-        android:layout_below="@+id/togglebutton"/>
-    <RatingBar android:id="@+id/ratingbar" android:stepSize="1" android:layout_height="wrap_content" android:layout_width="wrap_content"
-        android:numStars="10" android:layout_below="@+id/checkbox"/>
-</RelativeLayout>
+
+</FrameLayout>

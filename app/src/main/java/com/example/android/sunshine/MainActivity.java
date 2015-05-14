@@ -1,22 +1,20 @@
 package com.example.android.sunshine;
 
-import android.app.Activity;
-import android.media.Rating;
+import android.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.example.android.sunshine.R;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,44 +24,6 @@ public class MainActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView text = (TextView)findViewById(R.id.textview);
-
-        final Button button = (Button)findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            int count = 0;
-            public void onClick(View v) {
-                button.setText("Got pressed"+ ++count);
-            }
-        });
-        final ToggleButton tb = (ToggleButton)findViewById(R.id.togglebutton);
-        tb.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (tb.isChecked()) {
-                    tb.setText("on");
-                } else
-                    tb.setText("off");
-            }
-        });
-        final RatingBar rb = (RatingBar)findViewById(R.id.ratingbar);
-        rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                text.setText("ratings:" + rating);
-            }
-        });
-
-        final CheckBox cb = (CheckBox)findViewById(R.id.checkbox);
-        cb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (cb.isChecked()) {
-                    cb.setText("I'm checked");
-                } else
-                    cb.setText("I'm not checked");
-            }
-        });
-
-
     }
 
 
@@ -87,5 +47,20 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class PlaceholderFragment extends Fragment{
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+            View rootView = inflater.inflate(R.layout.fragment_main, container);
+            String[] weekForcast = {"Today-Sunny-88/63", "Tomorrow - Foggy-70/46", "Weds-Cloudy-72/63","Thurs-Rainy-64/51",
+                              "Fri-Foggy-70/46","Sat-sunny-76/68"
+                             };
+            List<String> weekForecast = new ArrayList<String>(Arrays.asList(weekForcast));
+            ArrayAdapter<String> mForestAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview,weekForcast);
+            ListView listView = (ListView)rootView.findViewById(R.id.list_item_forecast);
+            listView.setAdapter(mForestAdapter);
+            return rootView;
+        }
     }
 }
