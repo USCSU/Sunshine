@@ -27,8 +27,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,7 +109,13 @@ public class ForecastFragment extends Fragment {
         // Get a reference to the ListView, and attach this adapter to it.
         ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
         listView.setAdapter(mForecastAdapter);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String forcast = mForecastAdapter.getItem(position);
+                Toast.makeText(getActivity(),forcast,Toast.LENGTH_LONG).show();
+            }
+        });
         return rootView;
     }
 
@@ -212,57 +220,6 @@ public class ForecastFragment extends Fragment {
             return resultStrs;
 
         }
-//        private String getReadableDateString(long time){
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM DD");
-//            return simpleDateFormat.format(time);
-//        }
-//        private String formatHighLows(double high, double low){
-//            return Math.round(high)+"/"+Math.round(low);
-//        }
-//        private String[] getWeatherDataFromJson(String forecastJsonStr, int dayNum) throws JSONException{
-//            //format desired :
-//            //date - description-max/low
-//            //Json tag
-//            final String OWM_LIST = "list";
-//            final String OWM_WEATHER = "weather";
-//            final String OWM_TEMPERATURE = "temp";
-//            final String OWM_MAX = "max";
-//            final String OWM_MIN = "min";
-//            final String OWM_DESCRIPTION = "main";
-//            JSONObject json = new JSONObject(forecastJsonStr);
-//            JSONArray dayForecast = json.getJSONArray(OWM_LIST);
-//            Time dayTime = new Time();
-//            dayTime.setToNow();
-//            //julian day is integer which indicates current day index from julian day
-//            int julianDay = Time.getJulianDay(System.currentTimeMillis(),dayTime.gmtoff);
-//
-//            //work on UTC: universal time center
-//            dayTime = new Time();
-//            //ret set
-//            String[] resultSets = new String[dayNum];
-//            for(int i =0;i<dayForecast.length();i++){
-//                //get descirption information
-//                String day, description, highAndLow;
-//                JSONObject dayWeatherInfo = dayForecast.getJSONObject(i);
-//                JSONObject weatherArray = dayWeatherInfo.getJSONArray(OWM_WEATHER).getJSONObject(0);
-//                description = weatherArray.getString(OWM_DESCRIPTION);
-//
-//                JSONObject temp = dayWeatherInfo.getJSONObject(OWM_TEMPERATURE);
-//                highAndLow = formatHighLows(temp.getDouble(OWM_MAX),temp.getDouble(OWM_MIN));
-//
-//                //time
-//                long date = dayTime.setJulianDay(julianDay+i);
-//                day = getReadableDateString(date);
-//
-//                resultSets[i] = day+" - "+description + " - "+highAndLow;
-//            }
-//
-//
-//            for (String s : resultSets) {
-//                Log.e(LOG_TAG, "Forecast entry: " + s);
-//            }
-//            return resultSets;
-//        }
         @Override
         protected String[] doInBackground(String... params) {
             if(params.length == 0) return null;
