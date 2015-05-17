@@ -15,6 +15,7 @@
  */
 package com.example.android.sunshine;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -114,6 +115,10 @@ public class ForecastFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String forcast = mForecastAdapter.getItem(position);
                 Toast.makeText(getActivity(),forcast,Toast.LENGTH_LONG).show();
+                //send explicit intent to detail actitivy
+                Intent intent = new Intent(getActivity(),DetailActivity.class).putExtra(Intent.EXTRA_TEXT,forcast);
+                startActivity(intent);
+
             }
         });
         return rootView;
