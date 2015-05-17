@@ -12,7 +12,11 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <!--This is for implicit intent to get map resolution-->
+                <action android:name="android.intent.action.VIEW" />
+                <!--<data android:scheme="geo" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--map resoluction implicit intent end-->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
