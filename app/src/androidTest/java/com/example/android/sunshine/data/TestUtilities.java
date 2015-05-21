@@ -1,4 +1,4 @@
-package com.example.android.sunshine.app.data;
+package com.example.android.sunshine.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import com.example.android.sunshine.app.utils.PollingCheck;
+import com.example.android.sunshine.utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +41,24 @@ public class TestUtilities extends AndroidTestCase {
                     "' did not match the expected value '" +
                     expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));
         }
+        //compare cursor value and expectedValues;
+        //retrieve contentvalue: it's key value pair key:
+//        Set<Map.Entry<String,Object>> valueSet = expectedValues.valueSet();
+//        //traverse every entry of that
+//        for(Map.Entry<String, Object> entry : valueSet){
+//            //get column name
+//            String colName = entry.getKey();
+//            //get index of that column
+//            int index = valueCursor.getColumnIndex(colName);
+//            //cursor value: cursor.getString(index)
+//            //contentContext value: entry.getValue();
+//            //check if index is valid or not
+//            assertFalse("column '" +entry.getValue()+" ' not found" ,index == -1);
+//            String cursorValue = valueCursor.getString(index);
+//            String contentValue = entry.getValue().toString();
+//            //compare two vaules
+//            assertEquals("value '" +cursorValue+"' did not match expected value '"+contentValue+"' "+error,expectedValues,cursorValue);
+//        }
     }
 
     /*
@@ -68,6 +86,7 @@ public class TestUtilities extends AndroidTestCase {
      */
     static ContentValues createNorthPoleLocationValues() {
         // Create a new map of values, where column names are the keys
+
         ContentValues testValues = new ContentValues();
         testValues.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, TEST_LOCATION);
         testValues.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, "North Pole");
@@ -81,6 +100,7 @@ public class TestUtilities extends AndroidTestCase {
         Students: You can uncomment this function once you have finished creating the
         LocationEntry part of the WeatherContract as well as the WeatherDbHelper.
      */
+
     static long insertNorthPoleLocationValues(Context context) {
         // insert our test records into the database
         WeatherDbHelper dbHelper = new WeatherDbHelper(context);

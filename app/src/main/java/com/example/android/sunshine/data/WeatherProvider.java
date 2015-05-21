@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app.data;
+package com.example.android.sunshine.data;
 
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
@@ -315,32 +315,32 @@ public class WeatherProvider extends ContentProvider {
         return rowsUpdated;
     }
 
-    @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
-        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        final int match = sUriMatcher.match(uri);
-        switch (match) {
-            case WEATHER:
-                db.beginTransaction();
-                int returnCount = 0;
-                try {
-                    for (ContentValues value : values) {
-                        normalizeDate(value);
-                        long _id = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            returnCount++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
-                } finally {
-                    db.endTransaction();
-                }
-                getContext().getContentResolver().notifyChange(uri, null);
-                return returnCount;
-            default:
-                return super.bulkInsert(uri, values);
-        }
-    }
+//    @Override
+//    public int bulkInsert(Uri uri, ContentValues[] values) {
+//        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+//        final int match = sUriMatcher.match(uri);
+//        switch (match) {
+//            case WEATHER:
+//                db.beginTransaction();
+//                int returnCount = 0;
+//                try {
+//                    for (ContentValues value : values) {
+//                        normalizeDate(value);
+//                        long _id = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, value);
+//                        if (_id != -1) {
+//                            returnCount++;
+//                        }
+//                    }
+//                    db.setTransactionSuccessful();
+//                } finally {
+//                    db.endTransaction();
+//                }
+//                getContext().getContentResolver().notifyChange(uri, null);
+//                return returnCount;
+//            default:
+//                return super.bulkInsert(uri, values);
+//        }
+//    }
 
     // You do not need to call this method. This is a method specifically to assist the testing
     // framework in running smoothly. You can read more at:

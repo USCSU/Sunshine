@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app.data;
+package com.example.android.sunshine.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.sunshine.app.data.WeatherContract.LocationEntry;
-import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
+import com.example.android.sunshine.data.WeatherContract.LocationEntry;
+import com.example.android.sunshine.data.WeatherContract.WeatherEntry;
 
 /**
  * Manages a local database for weather data.
@@ -47,6 +47,12 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                 LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
                 LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
                 " );";
+//        final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " ( "+
+//                LocationEntry._ID + "INTEGER PRIMARY KEY, " +
+//                LocationEntry.COLUMN_LOCATION_SETTING + "TEXT UNIQUE NOT NULL, " +
+//                LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
+//                LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
+//                LocationEntry.COLUMN_COORD_LONG+ " REAL NOT NULL " + " );";
 
         final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " + WeatherEntry.TABLE_NAME + " (" +
                 // Why AutoIncrement here, and not above?

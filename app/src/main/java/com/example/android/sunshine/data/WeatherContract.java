@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app.data;
-
+package com.example.android.sunshine.data;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
@@ -28,9 +27,9 @@ public class WeatherContract {
 
     // The "Content authority" is a name for the entire content provider, similar to the
     // relationship between a domain name and its website.  A convenient string to use for the
-    // content authority is the package name for the app, which is guaranteed to be unique on the
+    // content authority is the package name fauthorior the app, which is guaranteed to be unique on the
     // device.
-    public static final String CONTENT_AUTHORITY = "com.example.android.sunshine.app";
+    public static final String CONTENT_AUTHORITY = "com.example.android.sunshine";
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
@@ -127,18 +126,18 @@ public class WeatherContract {
         public static final String COLUMN_DEGREES = "degrees";
 
         public static Uri buildWeatherUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
+//            return ContentUris.withAppendedId(CONTENT_URI, id);
+            return CONTENT_URI.buildUpon().appendPath(""+id).build();
         }
 
-        /*
-            Student: This is the buildWeatherLocation function you filled in.
-         */
+
         public static Uri buildWeatherLocation(String locationSetting) {
             return CONTENT_URI.buildUpon().appendPath(locationSetting).build();
         }
 
         public static Uri buildWeatherLocationWithStartDate(
                 String locationSetting, long startDate) {
+
             long normalizedDate = normalizeDate(startDate);
             return CONTENT_URI.buildUpon().appendPath(locationSetting)
                     .appendQueryParameter(COLUMN_DATE, Long.toString(normalizedDate)).build();
