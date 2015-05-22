@@ -190,5 +190,9 @@ public class ForecastFragment extends Fragment  implements LoaderManager.LoaderC
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         weatherTask.execute(location);
     }
+    public void onLocationChanged(){
+        updateWeather();
+        getLoaderManager().restartLoader(FORECAST_LOADER_ID,null,this);
+    }
 
     }
