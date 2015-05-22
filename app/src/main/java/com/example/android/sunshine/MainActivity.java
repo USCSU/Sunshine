@@ -1,10 +1,8 @@
 package com.example.android.sunshine;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -52,8 +50,9 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     private void openPreferredLocationInMap(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String location = preferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        String location = preferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        String location = Utility.getPreferredLocation(this);
         Uri mapLocation = Uri.parse("geo:0.0?").buildUpon().appendQueryParameter("q",location).build();
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(mapLocation);
