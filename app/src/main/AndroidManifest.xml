@@ -39,8 +39,16 @@
         </activity>
         <provider
             android:name=".data.WeatherProvider"
-            android:authorities="com.example.android.sunshine">
+            android:authorities="com.example.android.sunshine"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="content_provider_permission">
         </provider>
+        <!--Require permission for accessing my content provider-->
     </application>
+        <permission android:name="content_provider_permission"
+            android:protectionLevel="dangerous"
+            android:label="content_provider permission">
+        </permission>
 
 </manifest>
