@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
+
 
 public class MainActivity extends ActionBarActivity {
     private  final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -18,6 +21,18 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //add below two lines for parse useage
+
+        ParseObject testCase = new ParseObject("SunshineTestCase");
+        testCase.put("test1","SunshineApp1");
+        testCase.put("test2","SunshineApp2");
+        testCase.put("test3","SunshineApp3");
+        testCase.put("test4","SunshineApp4");
+        testCase.put("test5","SunshineApp5");
+
+        testCase.saveInBackground();
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
         setContentView(R.layout.activity_main);
         if(savedInstanceState == null){
             getSupportFragmentManager()

@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.sunshine.data.WeatherContract;
@@ -55,7 +56,11 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
             WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
             WeatherContract.LocationEntry.COLUMN_COORD_LAT,
-            WeatherContract.LocationEntry.COLUMN_COORD_LONG
+            WeatherContract.LocationEntry.COLUMN_COORD_LONG,
+            WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
+            WeatherContract.WeatherEntry.COLUMN_DEGREES
     };
 
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
@@ -69,7 +74,20 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     static final int COL_WEATHER_CONDITION_ID = 6;
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
+    static final int COL_HUMIDITY = 9;
+    static final int COL_PRESSURE = 10;
+    static final int COL_WIND_SPEED = 11;
+    static final int COL_DEGREE = 12;
 
+    private ImageView mIconView;
+    private TextView mFriendlyDateView;
+    private TextView mDateView;
+    private TextView mDescriptionView;
+    private TextView mHighTempView;
+    private TextView mLowTempView;
+    private TextView mHumidityView;
+    private TextView mWindView;
+    private TextView mPressureView;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER_ID,savedInstanceState,this);
@@ -81,21 +99,40 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         Intent intent = getActivity().getIntent();
         if(intent == null) return null;
         mForecastStr = intent.getDataString()+"\n";
-        return new CursorLoader(getActivity(),intent.getData(),FORECAST_COLUMNS,null,null,null);
+        return new CursorLoader(getActivity(), intent.getData(),FORECAST_COLUMNS,null,null,null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.e(LOG_TAG, "LOADER FINISHED");
         if (!data.moveToFirst()) { return; }
-        String dateString = Utility.formatDate(data.getLong(COL_WEATHER_DATE));
+        mIconView.setImageResource(Utility.getIconResourceForWeatherCondition(data.getInt(COL_WEATHER_CONDITION_ID)));
+//
+        long date = data.getLong(COL_WEATHER_DATE);
+        String friendlyDateText = Utility.getDayName(getActivity(), date);
+        String dateText = Utility.getFormattedMonthDay(getActivity(), date);
+        mFriendlyDateView.setText(friendlyDateText);
+        mDateView.setText(dateText);
+
+
         String description = data.getString(COL_WEATHER_DESC);
+        mDescriptionView.setText(description);
         boolean isMatric = Utility.isMetric(getActivity());
-        String maxTemp = Utility.formatTemperature(data.getDouble(COL_WEATHER_MAX_TEMP), isMatric);
-        String minTemp = Utility.formatTemperature(data.getDouble(COL_WEATHER_MIN_TEMP),isMatric);
-        mForecastStr += String.format("%s-%s-%s/%s",dateString,description,maxTemp,minTemp);
-        if(mForecastStr!=null)
-            ((TextView)getView().findViewById(R.id.detail_text)).setText(mForecastStr);
+        String maxTemp = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMatric);
+        mHighTempView.setText(maxTemp);
+        String minTemp = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMatric);
+        mLowTempView.setText(minTemp);
+        float humidity = data.getFloat(COL_HUMIDITY);
+        mHumidityView.setText(getActivity().getString(R.string.format_humidity,humidity));
+        float pressure = data.getFloat(COL_PRESSURE);
+        mPressureView.setText(getActivity().getString(R.string.format_pressure,pressure));
+        String wind = Utility.getFormattedWind(getActivity(),data.getFloat(COL_WIND_SPEED),data.getFloat(COL_DEGREE));
+        mWindView.setText(wind);
+
+        mForecastStr += String.format("%s-%s-%s/%s",dateText,description,maxTemp,minTemp);
+//        if(mForecastStr!=null)
+//            ((TextView)getView().findViewById(R.id.detail_text)).setText(mForecastStr);
+
 
 
         if(mShareActionProvider!=null)
@@ -113,6 +150,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         //get intent
 //        Intent intent = getActivity().getIntent();
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
 //        if(intent!=null){
 //            mForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
 //            mForecastStr = intent.getDataString();
@@ -120,6 +158,15 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 //            if(mForecastStr!=null)
 //            ((TextView)rootView.findViewById(R.id.detail_text)).setText(mForecastStr);
 //        }
+        mIconView = (ImageView)rootView.findViewById(R.id.detail_icon);
+        mFriendlyDateView = (TextView)rootView.findViewById(R.id.detail_day_textview);
+        mDateView = (TextView)rootView.findViewById(R.id.detail_date_textview);
+        mDescriptionView = (TextView)rootView.findViewById(R.id.detail_forecast_textview);
+        mHighTempView = (TextView)rootView.findViewById(R.id.detail_high_textview);
+        mLowTempView = (TextView)rootView.findViewById(R.id.detail_low_textview);
+        mHumidityView = (TextView)rootView.findViewById(R.id.detail_humidity_textview);
+        mWindView = (TextView)rootView.findViewById(R.id.detail_wind_textview);
+        mPressureView = (TextView)rootView.findViewById(R.id.detail_pressure_textview);
         return rootView;
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

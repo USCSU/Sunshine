@@ -49,7 +49,7 @@ public class ForecastAdapter extends CursorAdapter {
 
     private String formatHighLows(double high, double low) {
         boolean isMetric = Utility.isMetric(mContext);
-        String highLowStr = Utility.formatTemperature(high, isMetric) + "/" + Utility.formatTemperature(low, isMetric);
+        String highLowStr = Utility.formatTemperature(mContext,high, isMetric) + "/" + Utility.formatTemperature(mContext,low, isMetric);
         return highLowStr;
     }
 
@@ -106,11 +106,17 @@ public class ForecastAdapter extends CursorAdapter {
 //        TextView tv = (TextView)view;
 //        tv.setText(convertCursorRowToUXFormat(cursor));
         ViewHolder viewHolder = (ViewHolder)view.getTag();
+        int position = getItemViewType(cursor.getPosition());
+        if(position == VIEW_TYPE_TODAY)
+        //get icon
+            viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(
+                cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
+        else
+            viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(
+                cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID)));
 
         //get weather id
         int weather_id = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
-        //get icon
-        viewHolder.iconView.setImageResource(R.drawable.ic_snow);
         //get date
         String date = Utility.getFriendlyDayString(context, cursor.getLong(ForecastFragment.COL_WEATHER_DATE));
         viewHolder.dateView.setText(date);
@@ -119,11 +125,11 @@ public class ForecastAdapter extends CursorAdapter {
         viewHolder.descriptionView.setText(desc);
         //get high tem
         boolean isMatic = Utility.isMetric(context);
-        String high = Utility.formatTemperature(cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP), isMatic);
+        String high = Utility.formatTemperature(context,cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP), isMatic);
         viewHolder.highTempView.setText(high);
 
         //get low tempture
-        String low = Utility.formatTemperature(cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP),isMatic);
+        String low = Utility.formatTemperature(context,cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP),isMatic);
         viewHolder.lowTempView.setText(low);
     }
 }
